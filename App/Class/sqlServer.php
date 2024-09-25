@@ -23,8 +23,16 @@ class sqlServer {
 	}
 	public function ShowList()
 	{
-		$query = "SELECT * FROM List
-		ORDER BY title ASC";
-		return query($query);
+		$query = "SELECT * FROM `List`
+		ORDER BY `title` ASC";
+		return $this->query($query);
+	}
+	public function Search($category, $captcha)
+	{
+		$query = "SELECT * FROM `List` 
+		WHERE `category` = '".$category."'
+		AND `captcha` = '".$captcha."'
+		ORDER BY `title` ASC";
+		return $this->query($query);
 	}
 }
