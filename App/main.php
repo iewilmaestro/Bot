@@ -1,4 +1,13 @@
 <?php
+$version = 
+if(@iewil::Env()['VERSI'] < $version)
+{
+	print Display::Error("Progres update Script\npliss dont stop this progres\n");
+	system("git reset --hard");
+	system("git pull");
+	print Display::Line();
+	exit(Display::Sukses("re run script if return succes"));
+}
 
 if (!file_exists(".git"))
 {
