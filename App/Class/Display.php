@@ -8,8 +8,11 @@ class Display {
 	static function Isi($msg){return m."╭[".p."Input ".$msg.m."]".n.m."╰> ".h;}
 	static function Title($activitas){print bp.str_pad(strtoupper($activitas),44, " ", STR_PAD_BOTH).d.n;}
 	static function authBan($title, $str){$title_len_s = 8;$strlen_s = 19;$title_len = $title_len_s - strlen($title);$strlen = $strlen_s - strlen($str);return bp." ".$title.str_repeat(" ",$title_len).d.pb." ".$str.str_repeat(" ",$strlen).d.n;}
+	static function clean($extensi){return str_replace(".php","",$extensi);}
 	static function Ban($sc = 0){
 		system("clear");
+		print hp.str_pad("V".Iewil::Env()['VERSI'],44, " ", STR_PAD_BOTH).d.n;
+		$line = c;
 		print c."──────────────┬".str_repeat("─",29).n;
 		print m."<?╔╦╗╔═╗╔═╗".p."╦  ".$line."│".self::authBan("Author", "@fat9ght");
 		print m."   ║ ║ ║║ ".p."║║  ".$line."│".self::authBan("Channel", "t.me/MaksaJoin");
@@ -19,7 +22,7 @@ class Display {
 		print m."  ╩  ".p."╩ ╩╩  ?> ".$line."│".up.str_pad("@IPeop, @MetalFrogs", 29, " ", STR_PAD_BOTH).d.n;
 		print c."──────────────┴".str_repeat("─",29).n;
 		if($sc){
-			print hp.str_pad(strtoupper(title)." V".versi,44, " ", STR_PAD_BOTH).d.n;
+			print hp.str_pad(strtoupper(nama_file),44, " ", STR_PAD_BOTH).d.n;
 			print c.str_repeat('─',44).n;
 		}
 	}

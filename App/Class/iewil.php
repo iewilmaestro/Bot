@@ -7,7 +7,6 @@ class iewil {
 	function __construct() {
 		$this->author = "iewilmaestro";
 		$this->youtube = "https://www.youtube.com/@iewil";
-		
 	}
 	static function start() {
 		self::importColor();
@@ -60,7 +59,8 @@ class iewil {
 			define("pc","");
 		}
 	}
-	static function view(){
+	static function view()
+	{
 		$tanggal = date("dmy");
 		$file = "Data/view";
 		$youtube = "https://www.youtube.com/@iewil";
@@ -75,7 +75,8 @@ class iewil {
 			}
 		}
 	}
-	static function Env(){
+	static function Env()
+	{
 		$env = file_get_contents(".env");
 		$lines = explode("\n",$env);
 		foreach($lines as $line){
@@ -85,5 +86,19 @@ class iewil {
 		  }
 		}
 		return getenv();
+	}
+	static function Envx()
+	{
+		$now = file_get_contents("https://raw.githubusercontent.com/iewilmaestro/Bot/refs/heads/main/.env");
+		if(!$now){
+			exit(Display::Error("Connection Error\n"));
+		}
+		$lines = explode("\n", $now);
+		foreach($lines as $line){
+			preg_match("/([^#]+)\=(.*)/",$line,$matches);
+			if($matches[1] == "VERSI"){
+				return $matches[2];
+			}
+		}
 	}
 }

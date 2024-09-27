@@ -1,6 +1,6 @@
 <?php
-$version = 
-if(@iewil::Env()['VERSI'] < $version)
+
+if(@iewil::Env()['VERSI'] < @iewil::Envx())
 {
 	print Display::Error("Progres update Script\npliss dont stop this progres\n");
 	system("git reset --hard");
@@ -16,7 +16,7 @@ if (!file_exists(".git"))
 	print '$ git clone https://github.com/iewilmaestro/Bot'.n;
 	print '$ cd Bot'.n;
 	print '$ php run.php'.n;
-	exit("please install the tool correctly\n");
+	exit(Display::Error("please install the tool correctly\n"));
 }
 
 if (!file_exists("Data")) 
@@ -25,47 +25,55 @@ if (!file_exists("Data"))
 }
 
 @license::_start();
+Display::Ban();
 
-$sqlServer = new sqlServer();
-$list = $sqlServer->ShowList();
-
-$key = 1;
-$result = [];
-foreach($list as $value){
-	if(!in_array($value['category'], $result)){
-		$result[$key] = $value['category'];
-		Display::Menu($key, $value['category']);
-		$key++;
-	}
+menu_pertama:
+print mp.str_pad(strtoupper("menu"),44, " ", STR_PAD_BOTH).d.n;
+print Display::Line();
+$r = scandir("App/Bot");$a = 0;
+foreach($r as $act){
+	if($act == '.' || $act == '..') continue;
+	$menu[$a] =  $act;
+	Display::Menu($a, $act);
+	$a++;
 }
-
-$pil = readline(Display::Isi("Number"));
+$pil = readline(Display::Isi("Nomor"));
 print Display::Line();
+if($pil == '' || $pil >= Count($menu))exit(Display::Error("Tolol"));
 
-$category = $result[$pil];
-
-Display::Menu(1, "Apikey");
-Display::Menu(2, "Free");
-$pil = readline(Display::Isi("Number"));
+menu_kedua:
+print mp.str_pad(strtoupper("menu -> ".$menu[$pil]),44, " ", STR_PAD_BOTH).d.n;
 print Display::Line();
-$captcha = ($pil==1)? "true":"false";
-
-$num = 1;
-$list = $sqlServer->Search($category, $captcha);
-foreach($list as $value){
-	$title[$num] = $value;
-	Display::Menu($num, $value['title']);
-	$num++;
+$r = scandir("App/Bot/".$menu[$pil]);$a = 0;
+foreach($r as $act){
+	if($act == '.' || $act == '..') continue;
+	$menu2[$a] =  $act;
+	Display::Menu($a, $act);
+	$a++;
 }
-$pil = readline(Display::Isi("Number"));
+Display::Menu($a, m.'<< Back');
+$pil2 = readline(Display::Isi("Nomor"));
 print Display::Line();
-$final = $title[$pil];
+if($pil2 == '' || $pil2 > Count($menu2))exit(Display::Error("Tolol"));
+if($pil2 == Count($menu2))goto menu_pertama;
+if(isset(explode('-',$menu2[$pil2])[1]))exit(Display::Error("Tolol"));
 
-Define("title",$final['title']);
-Define("register",$final['regis']);
-Define("youtube",$final['youtube']);
-Define("versi",$final['version']);
-Define("status",$final['status']);
-Define("lastupdate",$final['timestamp']);
+print mp.str_pad(strtoupper('menu -> '.$menu[$pil].' -> '.$menu2[$pil2]),44, " ", STR_PAD_BOTH).d.n;
+print Display::Line();
+$r = scandir("App/Bot/".$menu[$pil]."/".$menu2[$pil2]);$a=0;
+foreach($r as $act){
+	if($act == '.' || $act == '..') continue;
+	$menu3[$a] =  $act;
+	Display::Menu($a, Display::Clean($act));
+	$a++;
+}
+Display::Menu($a, m.'<< Back');
+$pil3 = readline(Display::Isi("Nomor"));
+print Display::Line();
+if(isset($menu3) == null)exit(Display::Error("No content\n"));
+if($pil3 == '' || $pil3 > Count($menu3))exit(Display::Error("Tolol"));
+if($pil3 == Count($menu3))goto menu_kedua;
+if(isset(explode('-',$menu3[$pil3])[1]))exit(Display::Error("Tolol"));
 
-eval(base64_decode($final['bot']));
+define("nama_file",Display::clean($menu3[$pil3]));
+require "App/Bot/".$menu[$pil]."/".$menu2[$pil2]."/".$menu3[$pil3];
